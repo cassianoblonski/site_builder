@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe WebsiteConfig, type: :model do
   describe 'associations' do
-    it { is_expected.to have_one(:title_widget) }
     it { is_expected.to have_one(:weather_widget) }
     it { is_expected.to have_one(:calendar_widget) }
     it { is_expected.to have_many(:text_widgets) }
@@ -10,8 +9,11 @@ RSpec.describe WebsiteConfig, type: :model do
   end
 
   describe 'validations' do
+    it { is_expected.to validate_presence_of(:site_name) }
     it { is_expected.to validate_presence_of(:title_color) }
     it { is_expected.to validate_presence_of(:background_color) }
+    it { is_expected.to validate_presence_of(:banner_background_color) }
+    it { is_expected.to validate_presence_of(:icon_url) }
 
     describe 'limit of text widgets' do
       let!(:website_config) { create :website_config, text_widget_count: 10 }

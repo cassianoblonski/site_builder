@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :calendar_widget do
-    title { "My Calendar" }
+    title { Faker::Lorem.sentence(word_count: 3) }
     day { Date.today }
-    position { 1 }
+    position { generate(:position) }
     website_config
   end
 end

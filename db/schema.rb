@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_17_195644) do
+ActiveRecord::Schema.define(version: 2020_08_21_213224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,16 +34,6 @@ ActiveRecord::Schema.define(version: 2020_08_17_195644) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["website_config_id"], name: "index_text_widgets_on_website_config_id"
-  end
-
-  create_table "title_widgets", force: :cascade do |t|
-    t.string "site_name"
-    t.string "icon_slug"
-    t.string "background_color"
-    t.bigint "website_config_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["website_config_id"], name: "index_title_widgets_on_website_config_id"
   end
 
   create_table "video_widgets", force: :cascade do |t|
@@ -71,11 +61,13 @@ ActiveRecord::Schema.define(version: 2020_08_17_195644) do
     t.string "background_color"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "site_name"
+    t.string "icon_url"
+    t.string "banner_background_color"
   end
 
   add_foreign_key "calendar_widgets", "website_configs"
   add_foreign_key "text_widgets", "website_configs"
-  add_foreign_key "title_widgets", "website_configs"
   add_foreign_key "video_widgets", "website_configs"
   add_foreign_key "weather_widgets", "website_configs"
 end

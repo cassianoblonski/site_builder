@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :video_widget do
-    url { "MyString" }
-    title { "MyString" }
-    position { 1 }
+    title { Faker::Lorem.sentence(word_count: 3) }
+    url { Faker::Internet.url }
+    position { generate(:position) }
     website_config
   end
 end
