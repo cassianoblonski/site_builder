@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_141125) do
+ActiveRecord::Schema.define(version: 2020_08_24_235409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_141125) do
     t.string "site_name"
     t.string "icon_url"
     t.string "banner_background_color"
+    t.string "job_status"
   end
 
   add_foreign_key "calendar_widgets", "website_configs"
