@@ -10,4 +10,13 @@ class WebsiteConfig < ApplicationRecord
   accepts_nested_attributes_for :weather_widget
   accepts_nested_attributes_for :text_widgets
   accepts_nested_attributes_for :video_widgets
+
+  def widgets
+    associations = []
+    WebsiteConfig.reflect_on_all_associations.map(&:name).each do |assoc|
+      association = send assoc
+      associations << association if association.present?
+    end
+    associations.flatten.sort_by(&:position)
+  end
 end

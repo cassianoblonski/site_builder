@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :website_builds
   resources :calendar_widgets
   resources :video_widgets
   resources :weather_widgets

@@ -1,0 +1,2 @@
+class WebsiteBuild < ApplicationRecord
+end
