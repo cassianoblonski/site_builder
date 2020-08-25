@@ -5,6 +5,7 @@ FactoryBot.define do
     background_color        { "#fff000" }
     banner_background_color { "#f00" }
     icon_url                { "https://icon-library.com/images/icon-favicon/icon-favicon-4.jpg" }
+    job_status              { 'queued' }
 
     transient do
       text_widget_count { 10 }

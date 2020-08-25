@@ -2,12 +2,14 @@ class BuildWebsiteHtmlJob < ApplicationJob
   queue_as :default
 
   def perform(website_config)
-    website_config.update(job_status: 'JOB Inicializou')
-
-    website_build = WebsiteBuild.last
-    website_build.update(html: render_website(website_config))
-
-    website_config.update(job_status: 'JOB Terminou')
+    website_config.update(job_status: 'working')
+    begin
+      website_build = WebsiteBuild.last
+      website_build.update(html: render_website(website_config))
+      website_config.update(job_status: 'complete')
+    rescue Exception => e
+      website_config.update(job_status: 'failed')
+    end
   end
 
   def render_website(website_config)

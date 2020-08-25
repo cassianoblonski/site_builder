@@ -16,14 +16,41 @@ RSpec.describe "/website_configs", type: :request do
       get website_configs_url, as: :json
       expect(response).to be_successful
     end
-  end
 
-  describe "GET /show" do
-    let!(:website_config) { create :website_config }
+    context 'with queued status' do
+      let!(:website_config) { create :website_config, job_status: 'queued'}
 
-    it "renders a successful response" do
-      get website_config_url(website_config), as: :json
-      expect(response).to be_successful
+      it 'returns website_config job status' do
+        get website_configs_url, as: :json
+        expect(response.body).to eq("{\"job_status\":\"queued\"}")
+      end
+    end
+
+    context 'with working status' do
+      let!(:website_config) { create :website_config, job_status: 'working'}
+
+      it 'returns website_config job status' do
+        get website_configs_url, as: :json
+        expect(response.body).to eq("{\"job_status\":\"working\"}")
+      end
+    end
+
+    context 'with complete status' do
+      let!(:website_config) { create :website_config, job_status: 'complete'}
+
+      it 'returns website_config job status' do
+        get website_configs_url, as: :json
+        expect(response.body).to eq("{\"job_status\":\"complete\"}")
+      end
+    end
+
+    context 'with failed status' do
+      let!(:website_config) { create :website_config, job_status: 'failed'}
+
+      it 'returns website_config job status' do
+        get website_configs_url, as: :json
+        expect(response.body).to eq("{\"job_status\":\"failed\"}")
+      end
     end
   end
 

@@ -1,20 +1,15 @@
 class WebsiteConfigsController < ApplicationController
   def index
-    @website_configs = WebsiteConfig.all
-  end
-
-  def show
-    @website_config = WebsiteConfig.find(params[:id])
+    @website_config = WebsiteConfig.last
 
     render json: {
-        website_config_id: @website_config.id,
         job_status: @website_config.job_status,
       }, status: :ok
   end
 
   def create
     @website_config = WebsiteConfig.new(website_config_params)
-    @website_config.job_status = 'Na Fila'
+    @website_config.job_status = 'queued'
 
     if @website_config.save
       job = BuildWebsiteHtmlJob.set(wait: 0.seconds).perform_later(@website_config)

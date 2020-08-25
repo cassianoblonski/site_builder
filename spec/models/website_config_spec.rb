@@ -15,6 +15,10 @@ RSpec.describe WebsiteConfig, type: :model do
     it { is_expected.to validate_presence_of(:banner_background_color) }
     it { is_expected.to validate_presence_of(:icon_url) }
 
+    describe 'job_status enum' do
+      it { is_expected.to enumerize(:job_status).in(%w[queued working complete failed]) }
+    end
+
     describe 'limit of text widgets' do
       let!(:website_config) { create :website_config, text_widget_count: 10 }
       subject(:eleventh_text_widget) { build :text_widget, website_config: website_config }

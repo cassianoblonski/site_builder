@@ -78,6 +78,8 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    enumerize (2.3.1)
+      activesupport (>= 3.2)
     erubi (1.9.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -240,6 +242,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   dotenv-rails (~> 2.7, >= 2.7.5)
+  enumerize
   factory_bot_rails
   faker
   jbuilder (~> 2.7)
