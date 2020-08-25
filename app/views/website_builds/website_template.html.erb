@@ -2,16 +2,18 @@
 
 <html>
   <head>
-    <title>@website_config.site_name</title>
+    <title>website_config.site_name</title>
 
-    <%= favicon_link_tag @website_config.icon_url %>
+    <%= favicon_link_tag website_config.icon_url %>
   </head>
 
   <body>
-    <%= render_title_banner(@website_config) %>
+    <div style="background-color:<%= website_config.background_color %>">
+      <%= render_title_banner(website_config) %>
 
-    <% @website_config.widgets.each do |widget| %>
-      <%= render_widget(widget) %>
-    <% end %>
+      <% website_config.widgets.each do |widget| %>
+        <%= render_widget(widget) %>
+      <% end %>
+    </div>
   </body>
 </html>

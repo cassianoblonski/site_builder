@@ -36,7 +36,7 @@ module WebsiteBuildsHelper
     def render_video_widget(widget)
       content_tag(:div, id: 'video-widget') do
         content_tag(:h3, widget.title) +
-        video_tag("https://www.w3schools.com/html/mov_bbb.mp4", controls: true, )
+        video_tag(widget.url, controls: true, )
       end
     end
 end

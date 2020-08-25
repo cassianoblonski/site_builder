@@ -1,5 +1,4 @@
-json.extract! website_config, :id, :site_name, :title_color, :background_color, :banner_background_color, :icon_url :created_at, :updated_at
-json.url website_config_url(website_config, format: :json)
+json.extract! website_config, :id, :site_name, :title_color, :background_color, :banner_background_color, :icon_url, :created_at, :updated_at
 
 json.calendar_widget website_config.calendar_widget, :title, :day, :position if website_config.calendar_widget.present?
 json.weather_widget website_config.weather_widget, :lat, :long, :position if website_config.weather_widget.present?
