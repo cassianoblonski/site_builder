@@ -2,107 +2,49 @@ require 'rails_helper'
 
 RSpec.describe "/website_builds", type: :request do
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:website_build)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  let(:valid_headers) {
-    {}
+    attributes_for(:website_build, site_name: nil)
   }
 
   describe "GET /index" do
+    let!(:website_build) { create :website_build }
+    let!(:website_config) { create :website_config, site_name: 'Site Builder 42', text_widget_count: 2 }
+
     it "renders a successful response" do
-      WebsiteBuild.create! valid_attributes
-      get website_builds_url, headers: valid_headers, as: :json
+      get website_builds_url
       expect(response).to be_successful
     end
-  end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      website_build = WebsiteBuild.create! valid_attributes
-      get website_build_url(website_build), as: :json
-      expect(response).to be_successful
-    end
-  end
+    it "returns html" do
+      BuildWebsiteHtmlJob.perform_now(website_config)
+      get website_builds_url
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new WebsiteBuild" do
-        expect {
-          post website_builds_url,
-               params: { website_build: valid_attributes }, headers: valid_headers, as: :json
-        }.to change(WebsiteBuild, :count).by(1)
-      end
-
-      it "renders a JSON response with the new website_build" do
-        post website_builds_url,
-             params: { website_build: valid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including("application/json"))
-      end
+      expect(response.body).to include("<title>website_config.site_name</title>") &
+                               include("<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"#{website_config.icon_url}\" />") &
+                               include("<div style=\"background-color:#{website_config.background_color}\">") &
+                               include("<div id=\"title_banner\" style=\"background-color: #{website_config.banner_background_color};\">") &
+                               include("<img alt=\"Website Icon\" src=\"https://icon-library.com/images/icon-favicon/icon-favicon-4.jpg\" width=\"30\" height=\"30\" />") &
+                               include("Site Builder 42") &
+                               include("<div id=\"calendar-widget\">") &
+                               include("<h3>#{website_config.calendar_widget.title}</h3>") &
+                               include("<div data-day=\"&quot;#{website_config.calendar_widget.day}&quot;\">#{website_config.calendar_widget.day}") &
+                               include("<div id=\"weather-widget\" data-latitude=\"#{website_config.weather_widget.lat}\" data-longitude=\"#{website_config.weather_widget.long}\">") &
+                               include("<div id=\"video-widget\"><h3>#{website_config.video_widgets.first.title}") &
+                               include("<video controls=\"controls\" src=\"#{website_config.video_widgets.first.url}\">") &
+                               include("<div id=\"video-widget\"><h3>#{website_config.video_widgets.second.title}") &
+                               include("<video controls=\"controls\" src=\"#{website_config.video_widgets.second.url}\">")&
+                               include("<div id=\"text-widget\" style=\"background-color: #{website_config.text_widgets.first.background_color};\"><h3>#{website_config.text_widgets.first.title}") &
+                               include("<span>#{website_config.text_widgets.first.content}</span>")
+                               include("<div id=\"text-widget\" style=\"background-color: #{website_config.text_widgets.second.background_color};\"><h3>#{website_config.text_widgets.second.title}") &
+                               include("<span>#{website_config.text_widgets.second.content}</span>")
     end
 
-    context "with invalid parameters" do
-      it "does not create a new WebsiteBuild" do
-        expect {
-          post website_builds_url,
-               params: { website_build: invalid_attributes }, as: :json
-        }.to change(WebsiteBuild, :count).by(0)
-      end
-
-      it "renders a JSON response with errors for the new website_build" do
-        post website_builds_url,
-             params: { website_build: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested website_build" do
-        website_build = WebsiteBuild.create! valid_attributes
-        patch website_build_url(website_build),
-              params: { website_build: invalid_attributes }, headers: valid_headers, as: :json
-        website_build.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the website_build" do
-        website_build = WebsiteBuild.create! valid_attributes
-        patch website_build_url(website_build),
-              params: { website_build: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq("application/json")
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a JSON response with errors for the website_build" do
-        website_build = WebsiteBuild.create! valid_attributes
-        patch website_build_url(website_build),
-              params: { website_build: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested website_build" do
-      website_build = WebsiteBuild.create! valid_attributes
-      expect {
-        delete website_build_url(website_build), headers: valid_headers, as: :json
-      }.to change(WebsiteBuild, :count).by(-1)
+    it "returns content type html" do
+      get website_builds_url
+      expect(response.content_type).to include("text/html; charset=utf-8")
     end
   end
 end

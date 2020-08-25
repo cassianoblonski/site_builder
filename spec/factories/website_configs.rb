@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :website_config do
-    site_name               { "MyString" }
+    site_name               { "My Site Builder" }
     title_color             { "#000" }
-    background_color        { "#fff" }
+    background_color        { "#fff000" }
     banner_background_color { "#f00" }
     icon_url                { "https://icon-library.com/images/icon-favicon/icon-favicon-4.jpg" }
 
