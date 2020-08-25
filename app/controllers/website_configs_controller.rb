@@ -12,7 +12,10 @@ class WebsiteConfigsController < ApplicationController
     @website_config = WebsiteConfig.new(website_config_params)
 
     if @website_config.save
-      render :show, status: :created, location: @website_config
+      job = BuildWebsiteHtmlJob.set(wait: 5.seconds).perform_later(@website_config)
+      jid = job.provider_job_id
+
+      render json: jid, status: :created
     else
       render json: @website_config.errors, status: :unprocessable_entity
     end
