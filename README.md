@@ -1,36 +1,32 @@
-
-
-
-
 # Setup do Projeto
 
-**Download do projeto**
+##### Download do projeto:
 
 ```console
 git clone https://github.com/cassianoblonski/site_builder.git
 cd site_builder
 ```
 
-**Instale as gems do projeto**:
+##### Instale as gems do projeto:
 
 ```console
 gem install bundler
 bundle install
 ```
 
-##### Cria o banco de dados e realiza as migrations
+##### Cria o banco de dados e realiza as migrations:
 
 ```console
 bundle exec rails db:create db:migrate
 ```
 
-**Roda todos os testes **:
+##### Roda todos os testes:
 
 ```console
 bundle exec rspec
 ```
 
-**Inicie a api em `http://localhost:3000` por padrão**:
+##### Inicie a api em `http://localhost:3000` por padrão:
 
 ```console
 bundle exec rails server
@@ -40,7 +36,7 @@ bundle exec rails server
 
 # Endpoints
 
-## **GET /website_config **
+## GET /website_config
 
 Endpoint retorna status do ultimo website_config enviado:
 
@@ -54,7 +50,7 @@ Exemplo de respota para a requisição:
 
 
 
-## **POST /website_config **
+## POST /website_config
 
 Endpoint para criar uma Configuração do Website, tem como requisito minimo as chaves abaixo:
     "**site_name**": "Campo do tipo string para definir o nome e titulo do website"
@@ -174,7 +170,7 @@ Exemplo de resposta para uma requisição com sucesso.
 }
 ```
 
-## **GET /website_builds**
+## GET /website_builds
 
 Endpoint retorna o html da ultima build:
 
